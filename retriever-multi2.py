@@ -30,13 +30,13 @@ try:
         urls = open(sys.argv[1]).readlines()
         output_filename = sys.argv[2]
         if os.path.isfile(output_filename):
-          print "Output file already exists -- please delete first."
-          raise SystemExit
+            print "Output file already exists -- please delete first."
+            raise SystemExit
 
         if output_filename.endswith(".bz2"):
-          output_file = bz2.BZ2File(output_filename, "w")
+            output_file = bz2.BZ2File(output_filename, "w")
         else:
-          output_file = open(output_filename, "w")
+            output_file = open(output_filename, "w")
 
     if len(sys.argv) >= 4:
         num_conn = int(sys.argv[3])
@@ -75,8 +75,8 @@ for i in range(num_conn):
     c.setopt(pycurl.CONNECTTIMEOUT, 10)
     c.setopt(pycurl.TIMEOUT, 30)
     c.setopt(pycurl.NOSIGNAL, 1)
-    c.setopt(pycurl.HEADER, 1) # write out http response headers
-    c.setopt(pycurl.ENCODING, "") # "" -> Accept-encoding: gzip, zlib, ...
+    c.setopt(pycurl.HEADER, 1)  # write out http response headers
+    c.setopt(pycurl.ENCODING, "")  # "" -> Accept-encoding: gzip, zlib, ...
     #c.setopt(pycurl.VERBOSE , 1)
     m.handles.append(c)
 
@@ -98,22 +98,24 @@ while num_processed < num_urls:
     # Run the internal curl state machine for the multi stack
     while 1:
         try:
-          ret, num_handles = m.perform()
-          if ret != pycurl.E_CALL_MULTI_PERFORM:
-            break
+            ret, num_handles = m.perform()
+            if ret != pycurl.E_CALL_MULTI_PERFORM:
+                break
         except pycurl.error, e:
-          # Unhandled exception: what do we do??
-          print "Error code: ", e[0]
-          print "Error message: ", e[1]
+            # Unhandled exception: what do we do??
+            print "Error code: ", e[0]
+            print "Error message: ", e[1]
 
-    # Check for curl objects which have terminated, and add them to the freelist
+    # Check for curl objects which have terminated, and add them to the
+    # freelist
     while 1:
         num_q, ok_list, err_list = m.info_read()
         for c in ok_list:
             effective_url = c.getinfo(pycurl.EFFECTIVE_URL)
             output_file.write("\nmrcrawl_url: %s\n" % c.url)
             output_file.write("mrcrawl_effective_url: %s\n" % effective_url)
-            output_file.write("mrcrawl_date: %s\n" % datetime.datetime.utcnow().isoformat(" "))
+            output_file.write("mrcrawl_date: %s\n" %
+                              datetime.datetime.utcnow().isoformat(" "))
             output_file.write(c.output.getvalue())
             c.output.close()
             m.remove_handle(c)
