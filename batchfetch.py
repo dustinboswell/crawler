@@ -217,7 +217,7 @@ class MrCrawlMulti(curl.MultiFetcher):
         self.url_scheduler = UrlScheduler()
         self.sleeper = Sleeper()
         self.robot_manager = robots.RobotsManager(
-            self.useragent, "/crawldata/robots.db")
+            self.useragent, "robots.db")
 
         self.curl_domains = set()  # len(curl_domains) <= len(self.curls)
         for curl in self.curls:

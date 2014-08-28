@@ -22,17 +22,17 @@ def getDomain(url):
         #    i=-2: ["co","uk"]
         #    i=-1: ["uk"] etc
 
-            candidate = ".".join(lastIElements)  # abcde.co.uk, co.uk, uk
-            wildcardCandidate = ".".join(
-                ["*"] + lastIElements[1:])  # *.co.uk, *.uk, *
-            exceptionCandidate = "!" + candidate
+        candidate = ".".join(lastIElements)  # abcde.co.uk, co.uk, uk
+        wildcardCandidate = ".".join(
+            ["*"] + lastIElements[1:])  # *.co.uk, *.uk, *
+        exceptionCandidate = "!" + candidate
 
-            # match tlds:
-            if (exceptionCandidate in tlds):
-                return ".".join(urlElements[i:])
-            if (candidate in tlds or wildcardCandidate in tlds):
-                return ".".join(urlElements[i - 1:])
-            # returns "abcde.co.uk"
+        # match tlds:
+        if (exceptionCandidate in tlds):
+            return ".".join(urlElements[i:])
+        if (candidate in tlds or wildcardCandidate in tlds):
+            return ".".join(urlElements[i - 1:])
+        # returns "abcde.co.uk"
 
     return host
     #raise ValueError("Domain not in global list of TLDs: " + url)
