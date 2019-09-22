@@ -1,7 +1,6 @@
 import sys
 import os
 import datetime
-import cStringIO
 import StringIO
 import time
 import bz2
